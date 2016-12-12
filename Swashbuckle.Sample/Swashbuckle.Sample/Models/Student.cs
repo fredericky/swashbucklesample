@@ -1,14 +1,23 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Swashbuckle.Sample.Models
+﻿namespace Swashbuckle.Sample.Models
 {
+    /// <summary>
+    /// The Student model.
+    /// </summary>
     public class Student
     {
-        [Key]
+        /// <summary>
+        /// The identifier.
+        /// </summary>
         public int Id { get; set; }
 
+        /// <summary>
+        /// The name.
+        /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// The gender.
+        /// </summary>
         public Gender Gender { get; set; }
     }
 }

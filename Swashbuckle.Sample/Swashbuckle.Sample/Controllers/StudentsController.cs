@@ -9,6 +9,9 @@ using Swashbuckle.Sample.Models;
 
 namespace Swashbuckle.Sample.Controllers
 {
+    /// <summary>
+    /// Students controller.
+    /// </summary>
     public class StudentsController : ODataController
     {
         private static List<Student> _students = new List<Student>()
@@ -30,7 +33,6 @@ namespace Swashbuckle.Sample.Controllers
         /// <summary>
         /// Query student entities.
         /// </summary>
-        /// <returns>The student entities.</returns>
         [EnableQuery]
         public IQueryable<Student> Get()
         {
@@ -43,6 +45,7 @@ namespace Swashbuckle.Sample.Controllers
         /// </summary>
         /// <param name="key">The student ID.</param>
         /// <returns>The student entity.</returns>
+        /// <response code="204">The ID does not exist.</response>
         [EnableQuery]
         public SingleResult<Student> Get([FromODataUri] int key)
         {
@@ -56,8 +59,6 @@ namespace Swashbuckle.Sample.Controllers
         /// </summary>
         /// <param name="key">The student ID.</param>
         /// <param name="entity">The student entity.</param>
-        /// <returns>The created student entity.</returns>
-        [ResponseType(typeof(Student))]
         public IHttpActionResult Put([FromODataUri] int key, Student entity)
         {
             Console.WriteLine("Put:key={0}", key);
@@ -65,6 +66,8 @@ namespace Swashbuckle.Sample.Controllers
             if (product != null)
             {
                 _students.Remove(product);
+                _students.Add(entity);
+                return Updated(entity);
             }
             _students.Add(entity);
             return Created(entity);
@@ -74,8 +77,6 @@ namespace Swashbuckle.Sample.Controllers
         /// Delete a student entity by ID.
         /// </summary>
         /// <param name="key">The student ID.</param>
-        /// <returns>The deletion result.</returns>
-        [ResponseType(typeof(void))]
         public IHttpActionResult Delete([FromODataUri] int key)
         {
             Console.WriteLine("Delete:key={0}", key);
@@ -92,25 +93,11 @@ namespace Swashbuckle.Sample.Controllers
         /// Get student entities by gender.
         /// </summary>
         /// <param name="gender">The gender.</param>
-        /// <returns>The student entities with the specified gender.</returns>
         [HttpGet]
-        [EnableQuery]
-        public IQueryable<Student> GetByGender([FromODataUri] Gender gender)
+        public List<Student> GetByGender([FromODataUri] Gender gender)
         {
             Console.WriteLine("GetByGender:gender={0}", gender);
-            return _students.Where(s => s.Gender == gender).AsQueryable();
-        }
-
-        /// <summary>
-        /// Get student entities by IDs.
-        /// </summary>
-        /// <param name="ids">The student IDs.</param>
-        /// <returns>The student entities with the specified IDs.</returns>
-        [HttpGet]
-        public IQueryable<Student> GetByIds([FromODataUri] int[] ids)
-        {
-            Console.WriteLine("GetByIds:Ids={0}", string.Join(",", ids));
-            return _students.Where(s => ids.Contains(s.Id)).AsQueryable();
+            return _students.Where(s => s.Gender == gender).ToList();
         }
     }
 }

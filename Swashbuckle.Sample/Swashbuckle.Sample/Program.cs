@@ -8,7 +8,7 @@ namespace Swashbuckle.Sample
         static void Main(string[] args)
         {
             var config = new HttpSelfHostConfiguration("http://localhost:8080");
-
+            SwaggerConfig.Register(config);
             ODataConfig.Register(config);
 
             using (var server = new HttpSelfHostServer(config))

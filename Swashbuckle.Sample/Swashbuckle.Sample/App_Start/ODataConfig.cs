@@ -20,17 +20,13 @@ namespace Swashbuckle.Sample
             var builder = new ODataConventionModelBuilder();
             builder.EnableLowerCamelCase();
             builder.EntitySet<Student>("Students");
+            //builder.EnumType<Gender>();
 
             // Function bounds to a collection that accepts an enum parameter.
             var studentType = builder.EntityType<Student>();
             var enumParamFunction = studentType.Collection.Function("GetByGender");
             enumParamFunction.Parameter<Gender>("gender");
             enumParamFunction.ReturnsCollectionFromEntitySet<Student>("Students");
-
-            // Function bounds to an entity set that accepts an array as a parameter.
-            studentType.Collection.Function("GetByIds")
-                .ReturnsCollectionFromEntitySet<Student>("Students")
-                .CollectionParameter<int>("ids");
 
             return builder.GetEdmModel();
         }
@@ -40,6 +36,7 @@ namespace Swashbuckle.Sample
             var builder = new ODataConventionModelBuilder();
             builder.EnableLowerCamelCase();
             builder.EntitySet<Student>("Students");
+            //builder.EnumType<Gender>();
             return builder.GetEdmModel();
         }
     }
