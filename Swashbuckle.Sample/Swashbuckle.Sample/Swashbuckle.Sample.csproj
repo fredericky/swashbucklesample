@@ -111,6 +111,7 @@
   <ItemGroup>
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
+    <Compile Include="Extensions\ApplyXmsEnumParameterExtensions.cs" />
     <Compile Include="Extensions\ApplyXmsEnumSchemaExtensions .cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\Gender.cs" />

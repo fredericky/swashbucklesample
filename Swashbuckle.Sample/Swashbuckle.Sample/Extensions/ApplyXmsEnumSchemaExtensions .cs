@@ -5,12 +5,12 @@ using Swashbuckle.Swagger;
 namespace Swashbuckle.Sample.Extensions
 {
     /// <summary>
-    /// Apply enum schema.
+    /// Apply enum type for the definition.
     /// </summary>
     public class ApplyXmsEnumSchemaExtensions : ISchemaFilter
     {
         /// <summary>
-        /// Apply method.
+        /// Apply enum property with the tag: x-ms-enum
         /// </summary>
         /// <param name="schema"></param>
         /// <param name="schemaRegistry"></param>

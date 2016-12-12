@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Web.Http;
-using System.Web.Http.Description;
 using System.Web.OData;
 using Swashbuckle.Sample.Models;
 
@@ -44,14 +44,18 @@ namespace Swashbuckle.Sample.Controllers
         /// Query a student entity by ID.
         /// </summary>
         /// <param name="key">The student ID.</param>
-        /// <returns>The student entity.</returns>
-        /// <response code="204">The ID does not exist.</response>
-        [EnableQuery]
-        public SingleResult<Student> Get([FromODataUri] int key)
+        /// <response code="200">OK</response>
+        /// <response code="404">Not Found.</response>
+        public Student Get([FromODataUri] int key)
         {
             Console.WriteLine("Get:key={0}", key);
-            var res = _students.Where(p => p.Id == key).AsQueryable();
-            return SingleResult.Create(res);
+
+            var res = _students.FirstOrDefault(p => p.Id == key);
+            if (res == null)
+            {
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
+            }
+            return res;
         }
 
         /// <summary>

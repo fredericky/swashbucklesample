@@ -111,6 +111,6 @@ namespace Swashbuckle.Sample.Client
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<ODataResponseListStudent>> GetByGenderWithHttpMessagesAsync(string gender, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<ODataResponseListStudent>> GetByGenderWithHttpMessagesAsync(Gender? gender, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
     }
 }

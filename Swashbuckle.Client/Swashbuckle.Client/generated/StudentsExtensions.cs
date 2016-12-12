@@ -222,7 +222,7 @@ namespace Swashbuckle.Sample.Client
             /// <param name='gender'>
             /// The gender. Possible values include: 'Male', 'Female'
             /// </param>
-            public static ODataResponseListStudent GetByGender(this IStudents operations, string gender)
+            public static ODataResponseListStudent GetByGender(this IStudents operations, Gender? gender)
             {
                 return Task.Factory.StartNew(s => ((IStudents)s).GetByGenderAsync(gender), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
             }
@@ -239,7 +239,7 @@ namespace Swashbuckle.Sample.Client
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<ODataResponseListStudent> GetByGenderAsync(this IStudents operations, string gender, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<ODataResponseListStudent> GetByGenderAsync(this IStudents operations, Gender? gender, CancellationToken cancellationToken = default(CancellationToken))
             {
                 using (var _result = await operations.GetByGenderWithHttpMessagesAsync(gender, null, cancellationToken).ConfigureAwait(false))
                 {

@@ -299,7 +299,7 @@ namespace Swashbuckle.Sample.Client
             HttpStatusCode _statusCode = _httpResponse.StatusCode;
             cancellationToken.ThrowIfCancellationRequested();
             string _responseContent = null;
-            if ((int)_statusCode != 204)
+            if ((int)_statusCode != 200 && (int)_statusCode != 404)
             {
                 var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
                 _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
@@ -321,7 +321,7 @@ namespace Swashbuckle.Sample.Client
             _result.Request = _httpRequest;
             _result.Response = _httpResponse;
             // Deserialize Response
-            if ((int)_statusCode == 204)
+            if ((int)_statusCode == 200)
             {
                 _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                 try
@@ -610,12 +610,8 @@ namespace Swashbuckle.Sample.Client
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<ODataResponseListStudent>> GetByGenderWithHttpMessagesAsync(string gender, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<ODataResponseListStudent>> GetByGenderWithHttpMessagesAsync(Gender? gender, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (gender == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "gender");
-            }
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
             string _invocationId = null;
@@ -630,7 +626,7 @@ namespace Swashbuckle.Sample.Client
             // Construct URL
             var _baseUrl = this.Client.BaseUri.AbsoluteUri;
             var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "odata/Students/Default.GetByGender(gender=Swashbuckle.Sample.Models.Gender'{gender}')").ToString();
-            _url = _url.Replace("{gender}", Uri.EscapeDataString(gender));
+            _url = _url.Replace("{gender}", Uri.EscapeDataString(SafeJsonConvert.SerializeObject(gender, this.Client.SerializationSettings).Trim('"')));
             // Create HTTP transport objects
             HttpRequestMessage _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
